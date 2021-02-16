@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="three.js"></script>
+    <script src="js/GLTFLoader.js"></script>
+    <script src="js/OrbitControls.js"></script>
+  </head>
+
+  <body>
+    <script>
+      let scene,
+        camera,
+        renderer,
+        earth,
+        plane,
+        pp,
+        controls,
+        planeModel,
+        sphere;
+      const Vector3up = new THREE.Vector3(0, 1, 0);
+      const Vector3side = new THREE.Vector3(1, 0, 0);
+
+      function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(
+          40,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        hlight = new THREE.AmbientLight(0x404040, 10);
+        scene.add(hlight);
+        camera.position.z = 3;
+        scene.background = new THREE.Color("#eb4034");
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        //renderer.setClearColor();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        window.addEventListener("resize", () => {
+          renderer.setSize(innerWidth, innerHeight);
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+        });
+        pp = new THREE.Object3D();
+        pp.position.set(0, 0, 0);
+        let geometry = new THREE.SphereGeometry(0.2, 100, 100);
+        let material = new THREE.MeshBasicMaterial();
+        sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(0, 0, 1.2);
+        //pp.add(camera);
+
+        scene.add(sphere);
+        let index = 0;
+        let models = ["assets/earth/earth.gltf", "assets/plane/plane.gltf"];
+
+        let loader = new THREE.GLTFLoader();
+        loader.load("earth2.glb", function (gltf) {
+          earth = gltf.scene.children[0];
+          earth.position.set(0, 0, 0);
+          earth.add(pp);
+          earth = gltf.scene;
+          scene.add(earth);
+          renderer.render(scene, camera);
+        });
+        // let loader2 = new THREE.GLTFLoader();
+        // loader2.load("assets/plane/PaperPlane.gltf", function (gltf) {
+        //   planeModel = gltf.scene;
+        //   plane = gltf.scene.children[0];
+        //   //plane.scale.set(1, 1, 1);
+        //   plane.position.set(0, 0, 0);
+        //   plane.rotation.x = -90;
+        //   //sphere.add(plane);
+        //pp.add(sphere);
+        //   //scene.add(planeModel);
+        //   console.log(planeModel);
+        //   renderer.render(scene, camera);
+        // });
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.addEventListener("change", renderer);
+        //pp.add(camera);
+        renderer.render(scene, camera);
+
+        animation();
+      }
+      function loadModels() {}
+      function earthRotate(a) {
+        if (typeof earth == "object") {
+          const Vect = new THREE.Vector3(1, 0, 0);
+          sphere.getWorldDirection(Vect);
+          switch (a) {
+            case 1: //w
+              earth.rotateOnWorldAxis(Vector3side, +0.1);
+
+              break;
+            case 2: //s
+              earth.rotateOnWorldAxis(Vector3side, -0.1);
+              break;
+            case 3: //a
+              earth.rotateOnWorldAxis(Vector3up, 0.1);
+              break;
+            case 4: //d
+              earth.rotateOnWorldAxis(Vector3up, -0.1);
+              break;
+
+            default:
+              earth.rotateOnWorldAxis(Vector3side, -0.01);
+              
+          }
+          
+          //   camera.lookAt(planeModel.position);
+          //
+          //earth.rotateX(+0.01);
+        }
+        //pp.rotation.x-=0.01;
+        //planeModel.translateY(0.1);
+        renderer.render(scene, camera);
+      }
+      function animation() {
+        //console.log(typeof planeModel);
+
+        // if (typeof planeModel == "object") {
+        //   //sphere.lookAt(pp.getWorldPosition);
+        //   //earthRotate();
+        //   renderer.render(scene, camera);
+        // }
+        //earth.rotateOnWorldAxis(Vector3side, -0.1);
+        // if(!event.key){
+        // earthRotate(0);}
+        document.addEventListener("keydown", movement);
+        renderer.render(scene, camera);
+        requestAnimationFrame(animation);
+      }
+      function movement() {
+        switch (event.key) {
+          case "w": //w
+            earthRotate(1);
+            break;
+          case "s": //s
+            earthRotate(2);
+            break;
+          case "a": //A
+            //pp.rotation.y -= 0.1;
+            earthRotate(3);
+            //earth.rotateY(-0.1);
+            break;
+          case "d": //D
+            //pp.rotation.y += 0.1;
+            earthRotate(4);
+            //earth.rotateY(0.1);
+            break;
+        }
+        renderer.render(scene, camera);
+      }
+
+      init();
+    </script>
+  </body>
+</html>
