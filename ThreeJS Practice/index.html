@@ -12,15 +12,22 @@
 
   <body>
     <script>
+      var planes = new THREE.Plane(new THREE.Vector3(0, 0, 1.2), 0);
+      let raycaster = new THREE.Raycaster();
+      let mouse = new THREE.Vector3();
       let scene,
         camera,
         renderer,
         earth,
         plane,
         pp,
+        cone,
         controls,
         planeModel,
         sphere;
+      var map = {};
+      console.log(typeof map);
+
       const Vector3up = new THREE.Vector3(0, 1, 0);
       const Vector3side = new THREE.Vector3(1, 0, 0);
 
@@ -47,43 +54,52 @@
         });
         pp = new THREE.Object3D();
         pp.position.set(0, 0, 0);
-        let geometry = new THREE.SphereGeometry(0.2, 100, 100);
+        let geometry = new THREE.SphereGeometry(0.00002, 200, 200);
         let material = new THREE.MeshBasicMaterial();
         sphere = new THREE.Mesh(geometry, material);
         sphere.position.set(0, 0, 1.2);
         //pp.add(camera);
-
         scene.add(sphere);
+        var coneGeom = new THREE.ConeGeometry(0.05, 0.5, 400);
+        
+        coneGeom.rotateX(Math.PI /2);
+        //coneGeom.rotateZ(-Math.PI / 2); //
+        var coneMat = new THREE.MeshNormalMaterial();
+        cone = new THREE.Mesh(coneGeom, coneMat);
+        //cone.lookAt(new THREE.Vector3(0, 1, 0));
+        cone.position.z=1.2;
+        sphere.add(cone);
+        scene.add(cone);
         let index = 0;
         let models = ["assets/earth/earth.gltf", "assets/plane/plane.gltf"];
-
         let loader = new THREE.GLTFLoader();
         loader.load("earth2.glb", function (gltf) {
           earth = gltf.scene.children[0];
           earth.position.set(0, 0, 0);
           earth.add(pp);
           earth = gltf.scene;
+          scene.add(pp);
           scene.add(earth);
           renderer.render(scene, camera);
         });
-        // let loader2 = new THREE.GLTFLoader();
-        // loader2.load("assets/plane/PaperPlane.gltf", function (gltf) {
-        //   planeModel = gltf.scene;
-        //   plane = gltf.scene.children[0];
-        //   //plane.scale.set(1, 1, 1);
-        //   plane.position.set(0, 0, 0);
-        //   plane.rotation.x = -90;
-        //   //sphere.add(plane);
-        //pp.add(sphere);
-        //   //scene.add(planeModel);
-        //   console.log(planeModel);
-        //   renderer.render(scene, camera);
-        // });
+        let loader2 = new THREE.GLTFLoader();
+        loader2.load("assets/plane/PaperPlane.gltf", function (gltf) {
+          planeModel = gltf.scene;
+          plane = gltf.scene.children[0];
+          plane.scale.set(0.01, 0.01, 0.01);
+          plane.position.set(0, 0, 0);
+          //plane.rotation.x = -90;
+          sphere.add(plane);
+          //sphere.add(camera);
+          pp.add(sphere);
+          scene.add(planeModel);
+          console.log(planeModel);
+          renderer.render(scene, camera);
+        });
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.addEventListener("change", renderer);
         //pp.add(camera);
         renderer.render(scene, camera);
-
         animation();
       }
       function loadModels() {}
@@ -91,69 +107,75 @@
         if (typeof earth == "object") {
           const Vect = new THREE.Vector3(1, 0, 0);
           sphere.getWorldDirection(Vect);
-          switch (a) {
-            case 1: //w
-              earth.rotateOnWorldAxis(Vector3side, +0.1);
-
-              break;
-            case 2: //s
-              earth.rotateOnWorldAxis(Vector3side, -0.1);
-              break;
-            case 3: //a
-              earth.rotateOnWorldAxis(Vector3up, 0.1);
-              break;
-            case 4: //d
-              earth.rotateOnWorldAxis(Vector3up, -0.1);
-              break;
-
-            default:
-              earth.rotateOnWorldAxis(Vector3side, -0.01);
-              
-          }
-          
-          //   camera.lookAt(planeModel.position);
-          //
-          //earth.rotateX(+0.01);
         }
-        //pp.rotation.x-=0.01;
-        //planeModel.translateY(0.1);
         renderer.render(scene, camera);
       }
       function animation() {
-        //console.log(typeof planeModel);
-
-        // if (typeof planeModel == "object") {
-        //   //sphere.lookAt(pp.getWorldPosition);
-        //   //earthRotate();
-        //   renderer.render(scene, camera);
-        // }
-        //earth.rotateOnWorldAxis(Vector3side, -0.1);
-        // if(!event.key){
-        // earthRotate(0);}
         document.addEventListener("keydown", movement);
+        document.addEventListener("mousemove", onDocumentMouseMove, false);
+        fixedMovement(mouse.normalize());
+        //if(typeof(earth)=="object")
+        //earth.rotateOnAxis(Vector3side,0.1);
         renderer.render(scene, camera);
         requestAnimationFrame(animation);
       }
+      function onDocumentMouseMove(event) {
+        event.preventDefault();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        console.log(mouse.x + " " + mouse.y);
+      }
       function movement() {
-        switch (event.key) {
-          case "w": //w
-            earthRotate(1);
-            break;
-          case "s": //s
-            earthRotate(2);
-            break;
-          case "a": //A
-            //pp.rotation.y -= 0.1;
-            earthRotate(3);
-            //earth.rotateY(-0.1);
-            break;
-          case "d": //D
-            //pp.rotation.y += 0.1;
-            earthRotate(4);
-            //earth.rotateY(0.1);
-            break;
+        var map1 = {};
+        map1[event.keyCode] = event.type == "keydown";
+        // map[event.keyCode] = event.type == "keyup";
+        let v = new THREE.Vector3();
+        sphere.getWorldDirection(v);
+        let Vector3zero = new THREE.Vector3(0, 0, 0);
+        console.log(map1);
+        for (let key in map1) {
+          console.log(map1);
+          if (map1[87]) {
+            Vector3zero.add(Vector3side);
+          }
+          if (map1[65]) {
+            Vector3zero.add(Vector3up);
+          }
+          if (map1[68]) {
+            sphere;
+
+            Vector3zero.add(Vector3up);
+          }
         }
+
+        fixedMovement(Vector3zero.normalize());
         renderer.render(scene, camera);
+      }
+
+      function fixedMovement(vect) {
+        var intersectPoint = new THREE.Vector3();
+        let v = new THREE.Vector3();
+        let target = new THREE.Vector3();
+        if (typeof earth == "object" && typeof planeModel == "object") {
+          earth.getWorldDirection(v);
+          v = v.normalize();
+          v = v.divideScalar(10);
+          target.x -= (vect.y - target.x) * 0.2;
+          target.y -= (-vect.x - target.y) * 0.2;
+          target.z = camera.position.z;
+          let v1 = new THREE.Vector3(0, 0, 10);
+          console.log(typeof sphere.position.x);
+          console.log(vect);
+          //camera.lookAt(v)
+          //sphere.lookAt(target)
+
+          raycaster.setFromCamera(mouse, camera); //set raycaster
+          raycaster.ray.intersectPlane(planes, intersectPoint); // find the point of intersection
+          cone.lookAt(intersectPoint);
+          planeModel.lookAt(intersectPoint)
+          earth.rotateOnWorldAxis(vect, 0.01);
+        }
       }
 
       init();
