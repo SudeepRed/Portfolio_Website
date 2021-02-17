@@ -8,11 +8,12 @@
     <script src="three.js"></script>
     <script src="js/GLTFLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
   </head>
 
   <body>
     <script>
-      var planes = new THREE.Plane(new THREE.Vector3(0, 0, 1.2), 0);
+      var planes = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
       let raycaster = new THREE.Raycaster();
       let mouse = new THREE.Vector3();
       let scene,
@@ -24,27 +25,29 @@
         cone,
         controls,
         planeModel,
-        sphere;
+        sphere,
+        mouse2,
+        centerBall;
       var map = {};
       console.log(typeof map);
-
+      mouse2 = new THREE.Vector3();
       const Vector3up = new THREE.Vector3(0, 1, 0);
       const Vector3side = new THREE.Vector3(1, 0, 0);
 
       function init() {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(
-          40,
+          75,
           window.innerWidth / window.innerHeight,
           0.1,
           1000
         );
         hlight = new THREE.AmbientLight(0x404040, 10);
         scene.add(hlight);
-        camera.position.z = 3;
-        scene.background = new THREE.Color("#eb4034");
+        camera.position.z = 3.5;
+        scene.background = new THREE.Color("#bc81e3");
         renderer = new THREE.WebGLRenderer({ antialias: true });
-        //renderer.setClearColor();
+
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         window.addEventListener("resize", () => {
@@ -54,131 +57,169 @@
         });
         pp = new THREE.Object3D();
         pp.position.set(0, 0, 0);
-        let geometry = new THREE.SphereGeometry(0.00002, 200, 200);
+        let geometry = new THREE.BoxGeometry(0.0002, 0.0002, 0.0002);
         let material = new THREE.MeshBasicMaterial();
         sphere = new THREE.Mesh(geometry, material);
-        sphere.position.set(0, 0, 1.2);
-        //pp.add(camera);
-        scene.add(sphere);
+        centerBall = new THREE.Mesh(geometry, material);
+        let testball=new THREE.Mesh(new THREE.SphereGeometry(0.5, 100, 100), material);
+        scene.add(testball)
+        centerBall.rotation.y = 50;
+        scene.add(centerBall);
+        centerBall.position.set(0, 0, 0);
         var coneGeom = new THREE.ConeGeometry(0.05, 0.5, 400);
-        
-        coneGeom.rotateX(Math.PI /2);
-        //coneGeom.rotateZ(-Math.PI / 2); //
+        coneGeom.rotateX(Math.PI / 2);
         var coneMat = new THREE.MeshNormalMaterial();
         cone = new THREE.Mesh(coneGeom, coneMat);
-        //cone.lookAt(new THREE.Vector3(0, 1, 0));
-        cone.position.z=1.2;
-        sphere.add(cone);
+        cone.position.set(0, 0, 1.5);
         scene.add(cone);
         let index = 0;
         let models = ["assets/earth/earth.gltf", "assets/plane/plane.gltf"];
         let loader = new THREE.GLTFLoader();
         loader.load("earth2.glb", function (gltf) {
           earth = gltf.scene.children[0];
-          earth.position.set(0, 0, 0);
+          earth.position.x = 0;
+          earth.position.y = 0;
+          earth.position.z = 0;
           earth.add(pp);
           earth = gltf.scene;
           scene.add(pp);
           scene.add(earth);
-          renderer.render(scene, camera);
         });
-        let loader2 = new THREE.GLTFLoader();
-        loader2.load("assets/plane/PaperPlane.gltf", function (gltf) {
-          planeModel = gltf.scene;
-          plane = gltf.scene.children[0];
-          plane.scale.set(0.01, 0.01, 0.01);
-          plane.position.set(0, 0, 0);
-          //plane.rotation.x = -90;
-          sphere.add(plane);
-          //sphere.add(camera);
-          pp.add(sphere);
-          scene.add(planeModel);
-          console.log(planeModel);
-          renderer.render(scene, camera);
-        });
+        centerBall.add(cone);
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.addEventListener("change", renderer);
-        //pp.add(camera);
-        renderer.render(scene, camera);
         animation();
       }
-      function loadModels() {}
-      function earthRotate(a) {
-        if (typeof earth == "object") {
-          const Vect = new THREE.Vector3(1, 0, 0);
-          sphere.getWorldDirection(Vect);
-        }
-        renderer.render(scene, camera);
-      }
+
+      let balls=[];
+      let animateball;
       function animation() {
-        document.addEventListener("keydown", movement);
+     
         document.addEventListener("mousemove", onDocumentMouseMove, false);
-        fixedMovement(mouse.normalize());
-        //if(typeof(earth)=="object")
-        //earth.rotateOnAxis(Vector3side,0.1);
-        renderer.render(scene, camera);
+        fixedMovement(mouse2.normalize());
+        if(!scene.getObjectByName("ball")){
+          cancelAnimationFrame(animationID);
+          console.log("spawned")
+        spawnSphere();
+      }
         requestAnimationFrame(animation);
+        renderer.render(scene, camera);
       }
       function onDocumentMouseMove(event) {
         event.preventDefault();
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-        console.log(mouse.x + " " + mouse.y);
+        mouse2.y = -(event.clientX / window.innerWidth) * 2 + 1;
+        mouse2.x = -(event.clientY / window.innerHeight) * 2 + 1;
       }
-      function movement() {
-        var map1 = {};
-        map1[event.keyCode] = event.type == "keydown";
-        // map[event.keyCode] = event.type == "keyup";
-        let v = new THREE.Vector3();
-        sphere.getWorldDirection(v);
-        let Vector3zero = new THREE.Vector3(0, 0, 0);
-        console.log(map1);
-        for (let key in map1) {
-          console.log(map1);
-          if (map1[87]) {
-            Vector3zero.add(Vector3side);
-          }
-          if (map1[65]) {
-            Vector3zero.add(Vector3up);
-          }
-          if (map1[68]) {
-            sphere;
 
-            Vector3zero.add(Vector3up);
-          }
-        }
-
-        fixedMovement(Vector3zero.normalize());
-        renderer.render(scene, camera);
-      }
 
       function fixedMovement(vect) {
         var intersectPoint = new THREE.Vector3();
         let v = new THREE.Vector3();
         let target = new THREE.Vector3();
-        if (typeof earth == "object" && typeof planeModel == "object") {
-          earth.getWorldDirection(v);
+        if (typeof earth == "object" || typeof planeModel == "object") {
+          sphere.getWorldPosition(v);
           v = v.normalize();
-          v = v.divideScalar(10);
-          target.x -= (vect.y - target.x) * 0.2;
-          target.y -= (-vect.x - target.y) * 0.2;
+          //v = v.divideScalar();
+          target.x -= (mouse.y - target.x) * 0.2;
+          target.y -= (-mouse.x - target.y) * 0.2;
           target.z = camera.position.z;
           let v1 = new THREE.Vector3(0, 0, 10);
-          console.log(typeof sphere.position.x);
-          console.log(vect);
-          //camera.lookAt(v)
-          //sphere.lookAt(target)
+
 
           raycaster.setFromCamera(mouse, camera); //set raycaster
-          raycaster.ray.intersectPlane(planes, intersectPoint); // find the point of intersection
+          raycaster.ray.intersectPlane(planes, intersectPoint);
+          let z = new THREE.Vector3(0, 0, 1);
+          //intersectPoint.applyAxisAngle (z, -90 ); // find the point of intersection
+          centerBall.lookAt(intersectPoint);
           cone.lookAt(intersectPoint);
-          planeModel.lookAt(intersectPoint)
+
           earth.rotateOnWorldAxis(vect, 0.01);
         }
       }
-
+      let ball;
+      function spawnSphere() {
+        //if(typeof(earth)=="object"){
+          
+        let geometry = new THREE.SphereGeometry(0.2, 10, 10);
+        let material = new THREE.MeshBasicMaterial();
+        let ball = new THREE.Mesh(geometry, material);
+        ball.position.set(
+          getRndInteger(-5,5),
+          getRndInteger(-5,5),
+          2
+        );
+        ball.name="ball";
+        animateball=ball;
+        scene.add(ball);
+        //balls.push(ball);
+        //earth.add(ball);
+        
+        
+        //renderer.render(scene, camera);
+        moveObstacle(ball)
+      //}
+      }
+      function calcDist(vect){
+        var xCoor=vect.position.x;
+        var yCoor=vect.position.y;
+        var zCoor=vect.position.z;
+        var dist=Math.sqrt(Math.pow(xCoor,2)+Math.pow(yCoor,2)+Math.pow(yCoor,2))
+        
+        return dist;
+      }
+      
+      function moveObstacle(ball){
+        // let origin=new THREE.Vector3(0,0,0);
+        // let d= new THREE.Vector3();
+        // ball.getWorldPosition(d)
+        // //ball.worldToLocal(d);
+        // origin.add(d);
+        // let dist=calcDist(ball);
+        // origin.normalize();
+          console.log("moveobsfunc");
+          animateball=ball;
+          scene.add(animateball);
+          animateobs();
+          //ball.translateOnAxis(origin,-dist);
+          //renderer.render(scene,camera)
+        
+        //scene.remove(ball)
+        //renderer.render(scene,camera)
+      }
+      function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+      function animateobs(){
+        if(typeof(animateball)=="object"){
+          console.log("anim")
+        let origin=new THREE.Vector3(0,0,0);
+        let d= new THREE.Vector3();
+        animateball.getWorldPosition(d)
+        //ball.worldToLocal(d);
+        origin.add(d);
+        let dist=calcDist(animateball);
+        origin.normalize();
+        //if(typeof(earth)=="object"){
+        if(calcDist(animateball)>1){
+          console.log("inloop")
+          animateball.translateOnAxis(origin,-0.005)
+          //renderer.render(scene,camera)
+        }
+        else{
+          scene.remove(scene.getObjectByName("ball"))
+        }
+      }
+      renderer.render(scene,camera)
+      animationID= requestAnimationFrame(animateobs)
+      }
+      let animationID;
       init();
+      //spawnSphere();
+      
+      
     </script>
   </body>
 </html>
