@@ -27,7 +27,8 @@
         planeModel,
         sphere,
         mouse2,
-        centerBall;
+        centerBall,
+        testball;
       var map = {};
       console.log(typeof map);
       mouse2 = new THREE.Vector3();
@@ -37,7 +38,7 @@
       function init() {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(
-          75,
+          45,
           window.innerWidth / window.innerHeight,
           0.1,
           1000
@@ -61,7 +62,12 @@
         let material = new THREE.MeshBasicMaterial();
         sphere = new THREE.Mesh(geometry, material);
         centerBall = new THREE.Mesh(geometry, material);
-        let testball=new THREE.Mesh(new THREE.SphereGeometry(0.5, 100, 100), material);
+        let player=new THREE.Mesh(new THREE.SphereGeometry(0.05, 100, 100), material);
+        //pp=new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), material);
+        testball=new THREE.Mesh(new THREE.SphereGeometry(0.5, 100, 100), material);
+        testball.add(pp);
+        player.position.z=1.5;
+        pp.add(player);
         scene.add(testball)
         centerBall.rotation.y = 50;
         scene.add(centerBall);
@@ -80,11 +86,16 @@
           earth.position.x = 0;
           earth.position.y = 0;
           earth.position.z = 0;
-          earth.add(pp);
+          //earth.add(pp);
+          //pp.add(gltf.scene.children);
           earth = gltf.scene;
+          
           scene.add(pp);
           scene.add(earth);
         });
+        //player.add(camera)
+        //player.add(cone);
+        //pp.add(planes);
         centerBall.add(cone);
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.addEventListener("change", renderer);
@@ -97,9 +108,10 @@
      
         document.addEventListener("mousemove", onDocumentMouseMove, false);
         fixedMovement(mouse2.normalize());
+        //fixedMovement(mouse.normalize());
         if(!scene.getObjectByName("ball")){
           cancelAnimationFrame(animationID);
-          console.log("spawned")
+          //console.log("spawned")
         spawnSphere();
       }
         requestAnimationFrame(animation);
@@ -109,15 +121,18 @@
         event.preventDefault();
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
+        //mouse.z=1;
         mouse2.y = -(event.clientX / window.innerWidth) * 2 + 1;
         mouse2.x = -(event.clientY / window.innerHeight) * 2 + 1;
+        
       }
 
 
       function fixedMovement(vect) {
         var intersectPoint = new THREE.Vector3();
         let v = new THREE.Vector3();
+        let quat1=new THREE.Quaternion()
+        let quat2=new THREE.Quaternion();
         let target = new THREE.Vector3();
         if (typeof earth == "object" || typeof planeModel == "object") {
           sphere.getWorldPosition(v);
@@ -135,8 +150,22 @@
           //intersectPoint.applyAxisAngle (z, -90 ); // find the point of intersection
           centerBall.lookAt(intersectPoint);
           cone.lookAt(intersectPoint);
-
-          earth.rotateOnWorldAxis(vect, 0.01);
+          let x1=new THREE.Vector3()
+          x1.x=vect.x;
+          let y1=new THREE.Vector3()
+          y1.y=vect.x;
+          quat2.setFromAxisAngle(vect.normalize(),Math.PI/2)
+          quat1.rotateTowards(x1,y1)
+          //pp.worldToLocal(v);
+          // pp.setRotationFromQuaternion(quat2)
+          //pp.quaternion.slerp(vect.applyQuaternion)
+          // pp.rotateOnWorldAxis(vect, 0.01)
+          // pp.getWorldQuaternion(quat1);
+          // pp.getWorldDirection(v);
+          // //camera.lookAt(v.normalize());
+          // pp.setRotationFromQuaternion(quat1)
+          //earth.rotateOnAxis(vect, 0.01);
+          //earth.setRotationFromQuaternion(quat)
         }
       }
       let ball;
@@ -149,9 +178,10 @@
         ball.position.set(
           getRndInteger(-5,5),
           getRndInteger(-5,5),
-          2
+          0
         );
         ball.name="ball";
+        ball.spawnPosition=ball.position;
         animateball=ball;
         scene.add(ball);
         //balls.push(ball);
@@ -193,23 +223,56 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
       function animateobs(){
-        if(typeof(animateball)=="object"){
-          console.log("anim")
         let origin=new THREE.Vector3(0,0,0);
         let d= new THREE.Vector3();
+        if(animateball && earth){
+          //console.log("anim")
+        
         animateball.getWorldPosition(d)
         //ball.worldToLocal(d);
         origin.add(d);
         let dist=calcDist(animateball);
-        origin.normalize();
+        
         //if(typeof(earth)=="object"){
         if(calcDist(animateball)>1){
-          console.log("inloop")
-          animateball.translateOnAxis(origin,-0.005)
+          //console.log("inloop")
+          animateball.translateOnAxis(origin.normalize(),-0.005)
           //renderer.render(scene,camera)
         }
         else{
-          scene.remove(scene.getObjectByName("ball"))
+          let geometry = new THREE.SphereGeometry(0.05, 400, 400);
+        let material = new THREE.MeshNormalMaterial();
+        let c=new THREE.Mesh(geometry,material);
+        // c.position.x=origin.normalize().x*1;
+        // c.position.y=origin.normalize().y*1;
+        origin=c.worldToLocal(origin)
+        console.log(origin.normalize())
+        console.log(origin)
+        //c.rotateOnAxis(origin.normalize(),Math.PI/2)
+        
+        //c.position.set(0, 0, 1.5);
+        c.worldToLocal(origin)
+        //c.lookAt(animateball.spawnPosition);
+        //c.rotateX(Math.PI/2)
+        
+        // if( animateball.spawnPosition.y<=0)
+        // c.translateOnAxis(animateball.spawnPosition.normalize(),-1.5)
+        // else
+        // c.translateOnAxis(animateball.spawnPosition.normalize(),1.5)
+        c.translateOnAxis(origin.normalize(),1.5)
+        c.position.z=0;
+        //c.setRotationFromAxisAngle(origin.normalize(),Math.PI/2)
+        scene.add(c)
+        
+        //pp.add(c);
+        // let ed=new THREE.Quaternion();
+        // ed=pp.getWorldRotation(ed)
+        // c.setRotationFromQuaternion(ed)
+        
+        renderer.render(scene,camera)
+        scene.remove(animateball)
+          //scene.remove(scene.getObjectByName("ball"))
+          cancelAnimationFrame(animationID);
         }
       }
       renderer.render(scene,camera)

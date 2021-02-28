@@ -1,0 +1,24 @@
+/* let lightBeige="#D64B4B"
+let beige="#BF3A55"
+let lightPink="#903F5C"
+let pink="#7A3A64"
+let lightViolet="#632B58" */
+body {
+  margin: 0;
+  background-color: #D64B4B;
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+  /* This centers our sketch vertically. */
+  align-items: center;
+}
+#particles-js{
+  
+  
+  background-color: #D64B4B;
+  background-image: url('');
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  
+}
+
