@@ -6,8 +6,8 @@
 /* How to use? : Check the GitHub README
 /* v2.0.0
 /* ----------------------------------------------- */
-
-var pJS = function(tag_id, params){
+let pjs;
+var pJSS = function(tag_id, params){
 
   var canvas_el = document.querySelector('#'+tag_id+' > .particles-js-canvas-el');
 
@@ -133,11 +133,12 @@ var pJS = function(tag_id, params){
     },
     tmp: {}
   };
-
+  
   var pJS = this.pJS;
-
+  pjs=this.pJS;
   /* params settings */
   if(params){
+    console.log(params)
     Object.deepExtend(pJS, params);
   }
 
@@ -1104,41 +1105,7 @@ var pJS = function(tag_id, params){
 
       });
       
-        window.addEventListener('keypress',(e)=>{
-          
-          if(e.code=="KeyW"){
-            //cancelRequestAnimFrame(pJS.fn.checkAnimFrame);
-            //cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
-                let p=pJS.particles.array;
-                for(var j = 0; j < pJS.particles.array.length; j++){
-                  p[j].y-=3;
-                }
-            
 
-          }
-          if(e.code=="KeyS"){
-              let p=pJS.particles.array;
-              for(var j = 0; j < pJS.particles.array.length; j++){
-                p[j].y+=3;
-              }
-          
-          }
-          if(e.code=="KeyA"){
-            
-            let p=pJS.particles.array;
-            for(var j = 0; j < pJS.particles.array.length; j++){
-              p[j].x+=3;
-            }
-          }
-          if(e.code=="KeyD"){
-            let p=pJS.particles.array;
-            for(var j = 0; j < pJS.particles.array.length; j++){
-              p[j].x-=3;
-            }
-            cancelAnimationFrame
-        
-          }
-        });
 
       pJS.interactivity.el.addEventListener('mouseleave', function(e){
 
@@ -1554,9 +1521,9 @@ window.particlesJS = function(tag_id, params){
 
   /* launch particle.js */
   if(canvas != null){
-    pJSDom.push(new pJS(tag_id, params));
+    pJSDom.push(new pJSS(tag_id, params));
   }
-
+  
 };
 
 // window.addEventListener('mousemove',(e)=>{

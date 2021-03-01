@@ -21,32 +21,32 @@ particlesJS('particles-js',
 {
   "particles": {
     "number": {
-      "value": 100,
+      "value": 80,
       "density": {
-        "enable": false,
-        "value_area": 1499.3805191013182
+        "enable": true,
+        "value_area": 800
       }
     },
     "color": {
-      "value": beige
+      "value": "#ffffff"
     },
     "shape": {
-      "type": "polygon",
+      "type": "circle",
       "stroke": {
-        "width": 6,
-        "color": lightViolet
+        "width": 0,
+        "color": "#000000"
       },
       "polygon": {
-        "nb_sides": 6
+        "nb_sides": 5
       },
       "image": {
-        "src":"assets/virus.png",
-        "width": 50,
-        "height": 50
+        "src": "img/github.svg",
+        "width": 100,
+        "height": 100
       }
     },
     "opacity": {
-      "value": 1,
+      "value": 0.5,
       "random": false,
       "anim": {
         "enable": false,
@@ -56,47 +56,47 @@ particlesJS('particles-js',
       }
     },
     "size": {
-      "value": 45,
+      "value": 3,
       "random": true,
       "anim": {
         "enable": false,
         "speed": 40,
-        "size_min": 15,
-        "sync": true
+        "size_min": 0.1,
+        "sync": false
       }
     },
     "line_linked": {
-      "enable": true,
+      "enable": false,
       "distance": 150,
-      "color": lightViolet,
-      "opacity": 1,
-      "width": 2.5
+      "color": "#ffffff",
+      "opacity": 0.4,
+      "width": 1
     },
     "move": {
       "enable": true,
-      "speed": 2,
-      "direction": "none",
+      "speed": 10,
+      
       "random": false,
       "straight": false,
-      "out_mode": "bounce",
-      "bounce": true,
+      "out_mode": "out",
+      "bounce": false,
       "attract": {
-        "enable": true,
-        "rotateX": 1200,
-        "rotateY": 1200
+        "enable": false,
+        "rotateX": 8498.083922587271,
+        "rotateY": 6333.477640418815
       }
     }
   },
   "interactivity": {
-    "detect_on": "canvas",
+    "detect_on": "window",
     "events": {
       "onhover": {
-        "enable": false,
+        "enable": true,
         "mode": "repulse"
       },
       "onclick": {
         "enable": true,
-        "mode": "repulse"
+        "mode": "push"
       },
       "resize": true
     },
@@ -115,7 +115,7 @@ particlesJS('particles-js',
         "speed": 3
       },
       "repulse": {
-        "distance": 100,
+        "distance": 200,
         "duration": 0.4
       },
       "push": {
