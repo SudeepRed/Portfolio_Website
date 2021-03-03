@@ -10,10 +10,13 @@ class bullet {
   display() {
     push();
     translate(this.x, this.y);
-    this.img.resize(50, 0);
+    this.img.resize(45, 0);
+    fill(whiteContrast)
+    stroke(redContrast)
+    strokeWeight(7)
     rotate(Math.atan2(this.ySpd, this.xSpd) + PI / 2);
     image(this.img, 0, 0);
-
+    circle(0,0,15);
     pop();
   }
 
@@ -35,18 +38,20 @@ class bullet {
   }
 
   hitScan() {
-    for (var i = 0; i < targetBalloons.length; i++) {
+    for (var i = 0; i < virus.length; i++) {
       var collideOrNot = collideCircleCircle(
         this.x,
         this.y,
         10,
-        targetBalloons[i].myX(),
-        targetBalloons[i].myY(),
-        targetBalloons[i].myR()
+        virus[i].myX(),
+        virus[i].myY(),
+        virus[i].myR()
       );
       if (collideOrNot) {
-        targetBalloons.splice(i, 1);
+        virus.splice(i, 1);
+        objDeathSound.play()
         score += 1;
+        
         return true;
       }
     }

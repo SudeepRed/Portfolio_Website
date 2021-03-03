@@ -1,72 +1,157 @@
 let bg;
-let bulletsFired = [];
-let targetBalloons = [];
-let mainTurrent;
-let turPosX = 0;
-let turPosY = 0;
-let targetTimer = 0;
-let balloonSpawnMultiplier = 2;
-let balloonSizeMultiplier = 2;
+let anitidotesFired = [];
+let virus = [];
+let virusMultiplier = 0.5;
+let virusSize = 5;
 let score = 0;
-let Retry;
 let mouseAngle = 0;
 let highScore = 0;
 let anti;
+let speed=2.8;
+let waveIntitialised=false;
+let x = screen.width / 2;
+let y = screen.height / 2;
+let virusOnScreen=0;
+let waveNumber=1;
+let mode=0;
+let intro;
+let vx=x-400
+let vy=y-300
+let videoMoveSpeed=2;
+let div;
+let shootSound,objDeathSound,win,gameOver,hit,newWave;
 function setup() {
+  preLoad();
+  frameRate(144);
   var cnv = createCanvas(screen.width, screen.height);
   imageMode(CENTER);
   rectMode(CENTER);
-  anti = loadImage("assets/anti.png");
   cnv.position(0, 0, "fixed");
 }
-let x = screen.width / 2;
-let y = screen.height / 2;
+function preLoad(){
+  shootSound=loadSound("assets/shoot.mp3")
+  objDeathSound=loadSound("assets/objDeath.mp3")
+  hit=loadSound("assets/hitByObj.mp3")
+  gameOver=loadSound("assets/gameOver.mp3")
+  win=loadSound("assets/win.mp3")
+  newWave=loadSound("assets/newWave.mp3")
+  anti = loadImage("assets/antiV2.png");
+}
 function draw() {
-  //background(0);
+  document.getElementById("score").innerHTML= "Score - "+score;
+  document.getElementById("wave").innerHTML= "Wave - "+waveNumber;
   clear();
-  //window.pJSDom[0].pJS.particles.move.direction='none';
-  background("rgba(255,0,0, 0)");
-  push();
-  player();
-  pop();
+  menus();
+  
+  
+}
+function menus(){
+  if(mode==2){
+
+    
+  }
+  if(mode==1){
+
+    push();
+    player();
+    pop();
+    checkMovement();
+    spawnvirus();
+    
+  }
+}
+function spawnvirus(){
+  if(virusOnScreen<=25){
+		let newBalloon = new balloon();
+		virus.push(newBalloon);
+    virusOnScreen+=1;
+	
+}
+else{
+  waveIntitialised=true;
+  showVirus();
+}
 
 }
+function showVirus(){
+  if(waveIntitialised && virus.length>0){
+  {
+    for(let i=0;i<virus.length;i++){
+		virus[i].display();
+		virus[i].update();
+		if (virus[i].outOfBounds()){
+      		virus.splice(i,1);
+          score-=1;
+          hit.play();
+          if(score<=0){
+            gameOver.play()
+            mode=3;
+            break;
+
+          }
+          
+    	}
+	}
+}
+  }
+  else{
+    if(waveNumber==4){
+      win.play()
+      mode=4
+    }
+    else{
+    newWave.play()
+    newWave.stop(1);
+    virusOnScreen=0;
+    waveIntitialised=false;
+
+    waveNumber+=1;
+    increaseDifficulty(); 
+  }
+  }
+}
+function increaseDifficulty(){
+  virusMultiplier += 0.5;
+	if (virusSize < 5){
+		virusSize -= 0.01;
+	}
+}
+
 function player() {
-  anti.resize(70, 0);
+  anti.resize(40, 0);
   push();
   translate(x, y);
   mouseAngle = Math.atan2(mouseY - y, mouseX - x);
   rotate(mouseAngle - PI / 2);
   image(anti, 0, 0);
-  checkMovement();
+  
   pop();
   shootBullet();
-  //test();
 
 }
 function shootBullet() {
-  for (var i = 0; i < bulletsFired.length; i++) {
-    bulletsFired[i].display();
-    bulletsFired[i].update();
-    if (bulletsFired[i].outOfBounds()) {
-      bulletsFired.splice(i, 1);
-    } else if (bulletsFired[i].hitScan()) {
-      bulletsFired.splice(i, 1);
+  for (var i = 0; i < anitidotesFired.length; i++) {
+    anitidotesFired[i].display();
+    anitidotesFired[i].update();
+    if (anitidotesFired[i].outOfBounds()) {
+      anitidotesFired.splice(i, 1);
+    } else if (anitidotesFired[i].hitScan()) {
+      anitidotesFired.splice(i, 1);
     }
   }
 }
 function checkMovement() {
   
   if (keyIsDown(65)) {
-    x -= 5;
+    x -= speed;
     if(keyIsDown(87))
-    {y -= 5;
+    {y -= speed;
       if(window.pJSDom[0].pJS.particles.move.direction!="bottom-left")
       {window.pJSDom[0].pJS.particles.move.direction="bottom-left";
       window.pJSDom[0].pJS.fn.particlesRefresh()}
     }
     else if(keyIsDown(83))
-    {y += 5;
+    {y += speed;
       if(window.pJSDom[0].pJS.particles.move.direction!="top-right")
       {window.pJSDom[0].pJS.particles.move.direction="top-right";
       window.pJSDom[0].pJS.fn.particlesRefresh()}
@@ -78,17 +163,16 @@ function checkMovement() {
     }
 
   }
-
   else if (keyIsDown(68)) {
-    x += 5;
+    x += speed;
     if(keyIsDown(87))
-    {y -= 5;
+    {y -= speed;
       if(window.pJSDom[0].pJS.particles.move.direction!="bottom-left")
       {window.pJSDom[0].pJS.particles.move.direction="bottom-left";
       window.pJSDom[0].pJS.fn.particlesRefresh()}
     }
     else if(keyIsDown(83))
-    {y += 5;
+    {y += speed;
       if(window.pJSDom[0].pJS.particles.move.direction!="top-left")
       {window.pJSDom[0].pJS.particles.move.direction="top-left";
       window.pJSDom[0].pJS.fn.particlesRefresh()}
@@ -103,7 +187,7 @@ function checkMovement() {
   }
 
   else if (keyIsDown(87)) {
-    y -= 5;
+    y -= speed;
     
     if(window.pJSDom[0].pJS.particles.move.direction!="bottom")
       {window.pJSDom[0].pJS.particles.move.direction="bottom";
@@ -113,39 +197,28 @@ function checkMovement() {
   }
 
   else if (keyIsDown(83)) {
-    y += 5;
+    y += speed;
     if(window.pJSDom[0].pJS.particles.move.direction!="top")
-      {window.pJSDom[0].pJS.particles.move.direction="top";
-      window.pJSDom[0].pJS.fn.particlesRefresh()}
+      { window.pJSDom[0].pJS.particles.move.direction="top";
+        window.pJSDom[0].pJS.fn.particlesRefresh()}
 
 
   }
+  else{
+    if(window.pJSDom[0].pJS.particles.move.direction!="none")
+      { window.pJSDom[0].pJS.particles.move.direction='none';
+        window.pJSDom[0].pJS.fn.particlesRefresh()}
+  }
 
 }
-// function test(){
-//   window.addEventListener('keypress',(e)=>{
-          
-//     if(e.code=="KeyW"){
-//       window.pJSDom[0].pJS.particles.move.direction="top";
-//     }
-//     if(e.code=="KeyS"){
-
-    
-//     }
-//     if(e.code=="KeyA"){
-      
-
-//     }
-//     if(e.code=="KeyD"){
-  
-//     }
-//   });
-// }
 function mouseClicked() {
-  
+  if(mode==1){
+  shootSound.play();
+
   let mouseVector = getMouseVector();
   oneBullet = new bullet(mouseVector.x, mouseVector.y);
-  bulletsFired.push(oneBullet);
+  anitidotesFired.push(oneBullet);
+}
 }
 function getMouseVector() {
   let mouseXalt = mouseX - x;

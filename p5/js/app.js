@@ -10,25 +10,29 @@ particlesJS.load('particles-js', 'particles.json', function() {
 */
 
 /* Otherwise just put the config content (json): */
-let lightBeige="#D64B4B"
-let beige="#BF3A55"
-let lightPink="#903F5C"
-let pink="#7A3A64"
-let lightViolet="#632B58"
+let red="#CE0741"
+let white="#F6EED3"
+let purple="#700BE4"
+let darkpurple="#020F31"
+let redContrast="#07CE94"
+let whiteContrast="#7f9af1"
+let purpleContrast="#7FE40B"
+let darkpurpleContrast="#f7bf2f"
+
 
 particlesJS('particles-js',
   
 {
   "particles": {
     "number": {
-      "value": 80,
+      "value": 40,
       "density": {
         "enable": true,
         "value_area": 800
       }
     },
     "color": {
-      "value": "#ffffff"
+      "value": red
     },
     "shape": {
       "type": "circle",
@@ -46,7 +50,7 @@ particlesJS('particles-js',
       }
     },
     "opacity": {
-      "value": 0.5,
+      "value": 0.7,
       "random": false,
       "anim": {
         "enable": false,
@@ -56,7 +60,7 @@ particlesJS('particles-js',
       }
     },
     "size": {
-      "value": 3,
+      "value": 10,
       "random": true,
       "anim": {
         "enable": false,
@@ -66,22 +70,22 @@ particlesJS('particles-js',
       }
     },
     "line_linked": {
-      "enable": false,
-      "distance": 150,
-      "color": "#ffffff",
-      "opacity": 0.4,
-      "width": 1
+      "enable": true,
+      "distance": 70,
+      "color": white,
+      "opacity": 1,
+      "width": 3
     },
     "move": {
       "enable": true,
-      "speed": 10,
-      
-      "random": false,
+      "speed": 15,
+      "direction":"none",
+      "random": true,
       "straight": false,
       "out_mode": "out",
       "bounce": false,
       "attract": {
-        "enable": false,
+        "enable": true,
         "rotateX": 8498.083922587271,
         "rotateY": 6333.477640418815
       }
@@ -96,7 +100,7 @@ particlesJS('particles-js',
       },
       "onclick": {
         "enable": true,
-        "mode": "push"
+        "mode": "bubble"
       },
       "resize": true
     },
@@ -104,19 +108,18 @@ particlesJS('particles-js',
       "grab": {
         "distance": 400,
         "line_linked": {
-          "opacity": 1
+          "opacity": 2
         }
       },
       "bubble": {
-        "distance": 400,
-        "size": 40,
-        "duration": 2,
-        "opacity": 8,
-        "speed": 3
+        "distance": 200,
+        "size": 5,
+        "duration": 0.1,
+        "opacity": 1,
       },
       "repulse": {
         "distance": 200,
-        "duration": 0.4
+        "duration": 0.1
       },
       "push": {
         "particles_nb": 4

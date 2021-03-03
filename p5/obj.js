@@ -26,9 +26,11 @@ class balloon{
 	
 	display(){
 		push();
-		noStroke();
-		fill(255, 0, 0);
-		ellipse(this.x, this.y, this.r);
+		translate(this.x,this.y);
+		stroke(white)
+		strokeWeight(6)
+		fill(red);
+		ellipse(0, 0, this.r);
 		pop();
 	}
 	
@@ -37,9 +39,9 @@ class balloon{
 		this.targetY = y;
 		this.targetDir = createVector(this.targetX - this.x, this.targetY - this.y);
 		this.targetDir.normalize();
-		this.xSpd = this.targetDir.x*balloonSpawnMultiplier;
-		this.ySpd = this.targetDir.y*balloonSpawnMultiplier;
-		this.r = 12*balloonSizeMultiplier;
+		this.xSpd = this.targetDir.x*virusMultiplier;
+		this.ySpd = this.targetDir.y*virusMultiplier;
+		this.r = 12*virusSize;
 		this.x += this.xSpd;
 		this.y += this.ySpd;	
 	}

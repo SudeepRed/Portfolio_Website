@@ -1,27 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
     <script src="lib/p5.js"></script>
+    <script src="lib/p5Sound.js"></script>
+
     <script src="js/particles.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script>
+      $(document).ready(function () {
+          // Hide the div
+          $("#videoHand").hide();
+          //$("#p5").hide();
+          document.getElementById('scoreDiv').style.opacity=0;
+          // Show the div after 5s
+           
+      });    
+  </script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
-<body></body>
+<body>
       <div id="particles-js">
         
         <script src="js/app.js"></script>
 
       </div>
       <div id="p5">
+        
         <script src="sketch.js"></script>
         <script src="obj.js"></script>
         <script src="bullet.js"></script>
         <script src="p5.collide2d.js"></script>
-      </div>      
+      </div> 
+      <div id="scoreDiv">
+        <div id="score">
+        </div>
+        <div id="wave">
+        </div>
+      </div>
+      <div id="videoHand">
+        <div id="video">
+          <video width="800" height="600" autoplay muted id="videoP">
+            <source src="assets/10.2.mp4" type="video/mp4">
+            <source src="movie.ogg" type="video/ogg">
+            Your browser does not support the video tag.
+          </video>
+
+        </div>
+        <div id="hand">
+
+        </div>
+        <div id="handbgfiller">
+
+        </div>
+      </div>
+      <div id="startMenu">
+        <div id="welcome">
+          WELCOME
+        </div>
+          <a href="#" class="hbtn hb-fill-on hpill">Start Game</a>
+        <div>
+          <p> Controls:
+            <ol>
+              <li>
+                Use mouse to aim the viruses approching
+              </li>
+              <li>
+                use WASD to move around the canvas
+              </li>
+            </ol>
+            Good Luck!
+          </p>
+        </div>
+      </div>
+      <script>
+        let marginleft=screen.width/2-400-3;
+       marginleft= marginleft+"px";
+       document.getElementById('startMenu').addEventListener("click",function(){
+        $("#startMenu").hide();
+        $("#videoHand").toggle();
+        document.getElementById("videoHand").style.marginLeft=marginleft;
+      document.getElementById('videoP').addEventListener('ended',myHandler,false);
+      $("#hand").hide();
+      $("#hand").delay(4000).fadeIn(1000); 
+       },false);
+    function myHandler(e) {
+        console.log("end")
+        $("#videoHand").delay(600).fadeOut(1000);
+        document.getElementById('scoreDiv').style.opacity=1;
+        document.getElementById('scoreDiv').style.color=red;
+        mode=1;
+    }
+
+       </script>     
 </body>
+
 </html>
