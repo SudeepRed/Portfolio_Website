@@ -18,6 +18,8 @@
       $(document).ready(function () {
           // Hide the div
           $("#videoHand").hide();
+          $("#ded").hide();
+          $("#win").hide();
           //$("#p5").hide();
           document.getElementById('scoreDiv').style.opacity=0;
           // Show the div after 5s
@@ -61,7 +63,7 @@
 
         </div>
       </div>
-      <div id="startMenu">
+      <div class="startMenu" id="alive">
         <div id="welcome">
           WELCOME
         </div>
@@ -80,11 +82,25 @@
           </p>
         </div>
       </div>
+      <div class="startMenu" id="ded">
+        <div id="welcome">
+          GAME OVER YOU DIED :(
+        </div>
+          <a href="#" class="hbtn hb-fill-on hpill" style="align-items: bottom;" onchange="restart">Restart Game</a>
+
+      </div>
+      <div class="startMenu" id="win">
+        <div id="welcome">
+          WoW you have saved humanity from the virus!!!!
+        </div>
+          <a href="#" class="hbtn hb-fill-on hpill" style="align-items: bottom;" onchange="restart">Restart Game</a>
+
+      </div>
       <script>
         let marginleft=screen.width/2-400-3;
        marginleft= marginleft+"px";
-       document.getElementById('startMenu').addEventListener("click",function(){
-        $("#startMenu").hide();
+       document.getElementById('alive').addEventListener("click",function(){
+        $("#alive").hide();
         $("#videoHand").toggle();
         document.getElementById("videoHand").style.marginLeft=marginleft;
       document.getElementById('videoP').addEventListener('ended',myHandler,false);
@@ -98,6 +114,15 @@
         document.getElementById('scoreDiv').style.color=red;
         mode=1;
     }
+    document.getElementById('ded').addEventListener('click',function(){
+      mode=2;
+      $("#ded").hide();
+    })
+    document.getElementById('win').addEventListener('click',function(){
+      mode=2;
+      $("#win").hide();
+    })
+
 
        </script>     
 </body>

@@ -46,18 +46,33 @@ function draw() {
   
 }
 function menus(){
-  if(mode==2){
-
+  if(mode==4){
+    $("#win").fadeIn(1000);
+    
+  }
+  if(mode==3){
+    $("#ded").fadeIn(1000);
     
   }
   if(mode==1){
-
+  
     push();
     player();
     pop();
     checkMovement();
     spawnvirus();
     
+  }
+  if(mode==2){
+    score=0;
+    virus=[];
+    virusOnScreen=0;
+    waveIntitialised=false;
+    waveNumber=1;
+    virusMultiplier = 0.5;
+    virusSize=5;
+    mode=1;
+
   }
 }
 function spawnvirus(){
@@ -95,7 +110,7 @@ function showVirus(){
 }
   }
   else{
-    if(waveNumber==4){
+    if(waveNumber==10){
       win.play()
       mode=4
     }
