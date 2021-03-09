@@ -67,24 +67,25 @@ body {
   margin-top: -150px;
   
 }
-#startMenu{
+.startMenu{
+  margin: 0;
   background-color: rgba(14, 13, 13,0.8);
   font-family: 'Bebas Neue', cursive;
   color: #CE0741;
   font-size: 30px;
   top: 50%;
-  left: 50%;
-  position: absolute;
+  left: 50vw;
   border-radius: 4%;
-  
-  width: 800px;
-  min-height: 350px;
-  margin-left: -400px;
-  margin-top: -200px; 
+  width: 500px;
+  height: 450px;
+  margin-left: -250px;
+  margin-top: -225px; 
   justify-items: center;
   align-items: center;
   flex-direction: column;
   display: flex;
+  position: absolute;
+  padding: 10px;
 }
 #welcome{
   font-size: 60px;
@@ -92,6 +93,8 @@ body {
   padding-bottom: 20px;
 }
 .hbtn {
+  
+  min-height: 60px;
   color:#CE0741;
   position: relative;
   box-sizing: border-box;
