@@ -7,42 +7,152 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
+  font-family: "Roboto", sans-serif;
+  color: #a1a1a1;
+}
+
+.cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FF7834;
+  border-radius: 50%;
+  position: absolute;
+  transition-timing-function: ease-out;
+  animation: canim .5s infinite alternate;
+  pointer-events: none;
+}
+
+.cursor::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border: 3px solid #F03334;
+  border-radius: 50%;
+  top: -3px;
+  left: -3px;
+
+
+  animation: anim2 .5s infinite alternate;
+}
+
+@keyframes canim {
+  from {
+      transform: scale(1);
+  }
+  to {
+      transform: scale(1);
+  }
+}
+
+@keyframes anim2 {
+  from {
+      transform: scale(1);
+  }
+  to {
+      transform: scale(1.2);
+  }
+}
+
+@keyframes anim3 {
+  0% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(0.5);
+  }
+  100% {
+      transform: scale(1);
+      opacity: 0;
+  }
+}
+
+.expand {
+  animation: anim3 .5s forwards;
+  border: 5px solid orange;
+}
+
+/* horizontal scrolling properties*/
+@font-face {
+  font-family: gameFont;
+  src: url(../assets/Soul_Calibur.ttf);
+}
+#controlsInfo{
+  width: 20vw;
+  position: absolute;
+  margin-top: 45vh;
+  margin-left: 75vw;
+  color: #acacac73;
+  padding: 0;
+  font-size: 25px;
+
 
 }
-/* horizontal scrolling properties*/
+@font-face{
+  font-family: odachi;
+  src: url(../assets/Odachi\ 400.otf);
+}
+#name{
+  margin: 0;
+  top: 15vh;
+  left: 5vw;
+  color: rgba(255, 255, 255, 0.664);
+  position: absolute;
+  font-family: odachi;
+  font-size: 200px;
+}
+#intro{
+  display: flex;
+  padding: 10px;
+  align-items: center;
+
+    background: rgba(29, 29, 29, 0.6);
+
+box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+backdrop-filter: blur( 40.0px );
+-webkit-backdrop-filter: blur( 7.0px );
+border-radius: 15px;
+border: 5px solid rgba(12, 12, 12, 0.18);
+
+  width: 25vw;
+  min-height: 25vh;
+  font-size: 25px;
+  position: absolute;
+  top: 40vh;
+  margin-left: 5vw;
+
+}
 .wrapper {
-    transform: rotate(90deg) translateY(-100vh);
-    transform-origin: top left;
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    width: 600vw;
-    
-  }
-  .outer-wrapper {
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    min-width: 100vh;
-    min-height: 100vw;
-    transform: rotate(-90deg) translateX(-100vh);
-    transform-origin: top left;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    position: absolute;
-    
-    
-  }
-  .outer-wrapper {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  ::-webkit-scrollbar {
+  transform: rotate(90deg) translateY(-100vh);
+  transform-origin: top left;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  width: 600vw;
+  background-color: #141414;
+ 
+}
+.outer-wrapper {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  min-width: 100vh;
+  min-height: 100vw;
+  transform: rotate(-90deg) translateX(-100vh);
+  transform-origin: top left;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: absolute;
+}
+.outer-wrapper {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
     display: none;
   }
-  /* end horizontal scroll prperties */
+/* end horizontal scroll prperties */
 
-
-  /* screen cards properties */
+/* screen cards properties */
 .screen {
   width: 100vw;
   height: 100vh;
@@ -50,76 +160,388 @@ body {
 
 .card1 {
   scroll-snap-align: start;
+    z-index: 0;
   /* position: absolute; */
-
-  background: linear-gradient(to right, #FFDD95 0%, #FC887B 30%);
-  z-index: 0;
+  /* background-color: #181818; */
+  /* background: linear-gradient(to right, #FFDD95 0%, #FC887B 30%); */
 }
 .card2 {
   scroll-snap-align: start;
   z-index: 0;
-  background: linear-gradient(to right, #FC887B 0%, #CCABDA 100%);
-  
+  /* background: linear-gradient(to right, #FC887B 0%, #CCABDA 100%); */
+  /* background-color: #181818; */
 }
 .card3 {
   scroll-snap-align: start;
 
   z-index: 0;
-  background: linear-gradient(to right, #CCABDA 30%, #86E3CE 100%);
+  /* background: linear-gradient(to right, #CCABDA 30%, #86E3CE 100%); */
+  /* background-color: #181818; */
 }
 .card4 {
-
   scroll-snap-align: start;
-
+  /* background-color: #181818; */
   z-index: 0;
-  background: linear-gradient(to right, #86E3CE 0%, #D0E6A5 100%);
+  /* background: linear-gradient(to right, #86E3CE 0%, #D0E6A5 100%); */
 }
 .card5 {
-
   scroll-snap-align: start;
   /* position: absolute;
   left: 400vw; */
 
-  background: linear-gradient(to right, #D0E6A5 0%, #FFDD95 100%);
-  
+  /* background: linear-gradient(to right, #D0E6A5 0%, #065e6996 100%); */
+  /* background-color: #181818; */
 }
 .card6 {
-
   /* position: absolute;
   left: 500vw; */
   scroll-snap-align: start;
-  background-color: #86E3CE;
+  /* background-color: #86E3CE; */
 }
 /* screen cards properties end */
-.balls{
+.balls {
   position: absolute;
-
 }
 .welcomeScreen {
-    
-    color: white;
-    position: fixed;
-    font-family: 'Roboto', sans-serif;
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    font-size: 40px;
-    margin-top: -40vh;
-    margin-left: 15vw;
-    text-align: right;
-  }
-  #hello{
-      margin-bottom: -50px;
-    font-family: 'Pacifico', cursive;
-      font-size: 100px;
-      
-  }
-  .welcomeBalls{
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    position: absolute;
-    z-index: -1;
-    
-  }
 
+  font-family: "Roboto", sans-serif;
+  position: absolute;
+
+  font-size: 40px;
+  margin: 0;
+  text-align: left;
+}
+#hello {
+  margin-bottom: -50px;
+  font-family: "Pacifico", cursive;
+  font-size: 100px;
+}
+.welcomeBalls {
+  width: 0vw;
+  height: 0vh;
+  margin: 0;
+  position: absolute;
+  z-index: -1;
+}
+.text-layout {
+  /* color: rgb(219, 97, 15); */
+  position: fixed;
+  font-family: "Roboto", sans-serif;
+  position: absolute;
+
+  left: 50vw;
+  font-size: 40px;
+  text-align: right;
+}
+#recent-projects {
+  display: block;
+  left: 410vw;
+  justify-content: center;
+}
+.titleOnpage {
+  /* background: rgba( 153, 174, 245, 0.4 );
+    transform: skew(-10deg,7deg);
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 20.0px );
+-webkit-backdrop-filter: blur( 7.0px );
+border-radius: 15px;
+border: 5px solid rgba( 255, 255, 255, 0.18 ); */
+  /* color: rgb(2, 93, 109); */
+  font-family: odachi;
+  font-size: 100px;
+  font-weight: bold;
+  position: absolute;
+  min-width: 80vw;
+  margin-top: 10vh;
+  text-align: left;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.outer-box {
+  display: inline-flex;
+  position: relative;
+  flex-direction: row;
+}
+.box-item {
+  font-family: 'Roboto';
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+  margin-left: 20px;
+  margin-top: 30px;
+  height: 58vh;
+  margin-bottom: 40px;
+  /* border: rgba( 255, 255, 255, 1 );
+    border-style: solid; */
+}
+.rp1 {
+  height: 100%;
+  background-image: url(../assets/rp1.gif);
+  border-radius: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #272727;
+  /* color: #272727; */
+}
+.r2 {
+  height: 100%;
+
+  background-image: url(../assets/game.gif);
+  border: rgba(255, 255, 255, 0);
+  border-style: solid;
+  border-radius: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #00b4a9;
+  /* color: #272727; */
+}
+.r3 {
+  height: 100%;
+
+  background-image: url(../assets/game2.gif);
+  border: rgba(255, 255, 255, 0);
+  border-style: solid;
+  border-radius: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #212224;
+  /* color: #272727; */
+}
+.box-desc {
+  /* color: rgb(1, 42, 80); */
+  font-weight: lighter;
+  font-size: 22px;
+  text-align: center;
+  margin-top: 10px;
+  justify-content: bottom;
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+#project1Figma {
+  /* transform: skew(5deg,0deg);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    border-radius: 15px;
+    border: 5px solid rgba(255, 255, 255, 0.01); */
+  position: absolute;
+  margin-top: 5vh;
+  left: 169vw;
+  width: 28vw;
+  height: 50%;
+}
+#project1Miro {
+  /* transform: skew(5deg,0deg);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    border-radius: 15px;
+    border: 5px solid rgba(255, 255, 255, 0.01); */
+  position: absolute;
+  margin-top: 45vh;
+  left: 102vw;
+  width: 28vw;
+  height: 50%;
+}
+#GS {
+  /* background: rgba( 153, 174, 245, 0.1 );
+
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 200.0px );
+-webkit-backdrop-filter: blur( 7.0px );
+border-radius: 15px;
+border: 5px solid rgba(255, 255, 255, 0.01);
+    border:1px,solid,black; */
+  
+  font-size: 25px;
+  left: 170vw;
+  margin-top: 60vh;
+  /* color: black; */
+  position: absolute;
+  width: 27vw;
+  min-height: 10vh;
+
+  /* color:#602172; */
+  font-weight: 550;
+  padding: 10px;
+}
+#GSlogo {
+  /* backdrop-filter: blur( 20.0px );
+-webkit-backdrop-filter: blur( 7.0px );
+transform: skew(5deg,0deg); */
+
+  
+  position: absolute;
+  margin-top: 10vh;
+  left: 103vw;
+  min-width: 40vw;
+  min-height: 35%;
+  font-size: 50px;
+  font-family: odachi;
+  /* background-image: url(../assets/GSLogo.png);
+  background-repeat: no-repeat;
+  background-size: contain; */
+}
+#vacTitle {
+  margin-top: 20vh;
+  width: 40vw;
+
+  position: absolute;
+  left: 250vw;
+  font-family: "gameFont";
+  font-size: 80px;
+  /* color: rgb(2, 89, 92); */
+  text-align: right;
+}
+
+.cardInfo {
+  /* background: rgba( 38, 0, 211, 0.25 );
+
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 200.0px );
+    -webkit-backdrop-filter: blur( 7.0px );
+    border-radius: 15px;
+    */
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  margin-top: 25vh;
+  width: 30vw;
+  height: 75vh;
+  border-radius: 20px;
+  left: 260vw;
+
+  padding-top: 60px;
+  font-size: 20px;
+
+  /* color: rgb(10, 120, 124); */
+}
+#BMITitle {
+  font-family: odachi;
+  margin-top: 30vh;
+  width: 40vw;
+  position: absolute;
+  left: 316vw;
+  font-size: 80px;
+  /* color: rgb(2, 81, 95); */
+  text-align: left;
+}
+.bmi {
+  margin-top: 35vh;
+  width: 40vw;
+  position: absolute;
+  left: 316vw;
+  font-size: 20px;
+  /* color: rgb(2, 81, 95); */
+  text-align: left;
+}
+input[type=text], select, textarea {
+  width: 100%;
+  font-family: odachi;
+  font-size: 20px;
+  padding: 12px;
+  border: 5px solid rgb(97, 96, 96);
+  background-color: #141414;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  color: white;
+}
+
+input[type=submit] {
+  font-family: odachi;
+  font-size: 20px;
+  background-color: #404140;
+  color: rgb(255, 255, 255);
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #6e6e6e;
+}
+
+.container {
+  font-family: odachi;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  align-items: center;
+  left: 550vw;
+  top: 15vh;
+  width: 30vw;
+  min-height: 50vh;
+  border-radius: 5px;
+  background-color: #3533334f;
+  padding: 20px;
+}
+.hbtn {
+  font-family: odachi;
+  font-size: 25px;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  padding: 8px 20px;
+  margin: 0px 3px 6px;
+  text-align: center;
+  border: 2px solid rgb(255, 255, 255);
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  white-space: nowrap;
+  z-index: 0;
+} 
+
+
+.hbtn i {
+  padding-right: 8px;
+} 
+
+
+.hb-fill-right::before {
+  position: absolute;
+  content: "";
+  background: rgb(255, 255, 255);
+  transition-duration: 0.3s;
+  z-index: -1;
+  inset: 0px auto auto 0px;
+  width: 0px;
+  height: 100%;
+  opacity: 1;
+} 
+
+
+.hb-fill-right:hover::before {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+} 
+
+
+.hb-fill-right:hover {
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  transition: color 0.3s ease 0s, background 0s ease 0.3s;
+} 
+
+
+.hpill {
+  border-radius: 50px;
+}
+#thank{
+  width: 30vw;
+  margin-left: 15vw;
+  position: absolute;
+  left: 500vw;
+  top :20vh;
+  font-family: odachi;
+  font-size: 100px;
+} 

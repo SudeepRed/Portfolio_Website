@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <style>
-        body { width: 100%; height: 100%; margin: 0; position: fixed; background: rgba(243.75,243.75,243.75, 0) }
-        canvas { width: 100%; height: 100%; outline: none; }
-        #container { width: 100%; height: 100%; position: relative; } 
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            position: fixed;
+            background: rgba(243.75, 243.75, 243.75, 0)
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            outline: none;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
     </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,77 +31,221 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Pacifico&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Pacifico&family=Roboto&display=swap"
+        rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Hide the div
+            $("#intro").hide();
+            // $("#intro").toggle;
+            //document.getElementById('intro').style.opacity=0;
+            //$("#p5").hide();
+            // document.getElementById('scoreDiv').style.opacity=0;
+            // Show the div after 5s
 
+        });
+    </script>
 </head>
-<body>
+
+<body id="s1">
 
     <div class="outer-wrapper">
         <div class="wrapper">
-        <div class="screen card1">
-            <div class='welcomeBalls'>
 
-                <canvas id ="gg"></canvas>                    
-            </div>        
-            <div class="welcomeScreen">
-                <p id="hello">Hello there!</p>
-                <p>I'm Sudeep</p>
-                <p>Welcome to my website!</p>
-                <p>So you found me uhh!</p>
+            <div class="screen card1">
+                <div class='welcomeBalls'>
+
+                    <canvas id="gg"></canvas>
                 </div>
-        
-        </div>
+                <div class="welcomeScreen">
+                    <div id="controlsInfo"
+                        style="background: rgba(29, 29, 29, 0.6);box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);backdrop-filter: blur( 40.0px );-webkit-backdrop-filter: blur( 7.0px );padding: 20px; border-radius: 10px;">
+                        <div style="margin-bottom: 30px;color: rgba(255, 166, 0, 0.712);">
+                            </pstyle> Heya!</div>
+                        <div style="margin-top:-20px;"> Use <b>WASD</b> and see the character move!
+                        </div>
+                    </div>
+                    <div id="name">
+                        SUDEEP
+                    </div>
+                    <div id="intro">
+                        Hey there! <br><br>
+                        I am a 20 year'ol Btech Undergrad studying in IIITD. <br> <br>
+                        I am an avid gamer (Overwatch is my favorite game) and PC building enthusiast. <br> <br>
+                        I have a keen interest in the upcoming technologies such as AI and ML.</div>
+                </div>
 
-        <div class="screen card2">
+            </div>
 
-            <div class='welcomeBalls'>
+            <div class="screen card2">
 
-                <canvas class="ball" id="canvas3d"></canvas>                    
-            </div>  
-        </div>   
-                   
-        <div class="screen card3">
-            <div class='welcomeBalls'>
+                <div class='welcomeBalls'>
 
-                <canvas class="ball" id="game"></canvas>                    
+                    <canvas class="ball" id="canvas3d"></canvas>
+                </div>
+                <div id="GSlogo">
+                    <div style="font-family: odachi; font-size: 150px; "><b>Go Sustain</b></div>
+                    Get Aware, Make Aware
+                </div>
+                <div id="GS">
+                    <p><b>Problems we are trying to solve using this app</b> </p>
+                    Lack of awareness towards the SDGs and peoples’ unwillingness to adopt sustainable consumption
+                    practices have serious negative impacts in the availability and renewability of our natural
+                    resources.
+                    Lack of enthusiasm has impeded progress to achieve sustainability.
+
+                </div>
+                <div id="project1Figma"><iframe
+                        style=" height: 100%; width: 100%; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 10px;"
+                        src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FaHlUsbIbTWRPevLOYwFjWR%2FGo-Sustain%3Fnode-id%3D10%253A0"
+                        allowfullscreen></iframe></div>
+                <div id="project1Miro"><iframe style="width: 100%; height: 100%;border-radius: 10px;"
+                        src="https://miro.com/app/live-embed/o9J_lQ_CkVM=/?moveToViewport=-75988,-38302,151878,76651"
+                        frameBorder="0" scrolling="no" allowFullScreen></iframe></div>
+
+            </div>
+
+            <div class="screen card3">
+                <div class='welcomeBalls'>
+                    <canvas class="ball" id="game"></canvas>
+                </div>
+                <div>
+                    <div id="vacTitle">
+                        <b>VaCxerX:</b>fight Covid!
+                    </div>
+
+                    <div class="cardInfo">
+                        This is a game where scients have dicoved a new vaccine to stop Covid-19. They need your help to
+                        kill the virus. <br><br>
+                        In this game the vaccine has been injectied to test for human trials; it is now your chance to
+                        prove yourself and win this long suffering batle of humanity against the corona virus. <br> <br>
+                        <b> Destroy as many viruses as you can! <br> Survive till the end! <br> And save humanity!!!!
+                        </b> <br> The aim of this project was to get familiarized with as many JavaScript libraries as
+                        possible and learning JavaScript by doing.
+                        <br>
+                        <br>
+                        <a href="https://vacxerx.netlify.app/" class="hbtn hb-fill-right hpill">Play!</a>
+                    </div>
+                </div>
+            </div>
+            <div class="screen card4">
+                <div class='welcomeBalls'>
+
+                    <canvas class="ball" id="flutter"></canvas>
+                </div>
+                <div>
+                    <div id="BMITitle">
+                        <b>BMI Calculator App</b>
+                    </div>
+                    <div class="cardInfo bmi">
+                        This is a simple BMI clculator app made using Flutter. The main gold of this project was to
+                        leran, how to make custom buttons and thems in Flutter <br><br>
+                        <br> <br>
+                        <a href="#" class="hbtn hb-fill-right hpill">Get it from Github</a>
+                    </div>
+                </div>
+            </div>
+            <div class="screen card5">
+                <div class="text-layout" id="recent-projects">
+                    <div class="titleOnpage">
+                        Works In Progress...
+                        <div class="outer-box">
+                            <div class="box-item">
+                                <div class="rp1 r1"></div>
+                                <div class="box-desc">A JavaFx game, made with advanced Java concepts and design
+                                    patterns </div>
+                            </div>
+                            <div class="box-item">
+                                <div class="rp1 r2"></div>
+                                <div class="box-desc"> A platformer type game developed in Unity <br><br> </div>
+                            </div>
+                            <div class="box-item">
+                                <div class="rp1 r3"></div>
+                                <div class="box-desc">An open world space rail shooter game with procedural terrain
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="screen card6">
+
+                <div id="thank">
+                    Let me know what you think anout this website! :) <br>
+                ------>
+                </div>
+                <div class="container">
+                    <form action="/action_page.php">
+                        <label for="fname">First Name</label>
+                        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+                        <label for="lname">Last Name</label>
+                        <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+
+                        <label for="subject">Subject</label>
+                        <textarea id="subject" name="subject" placeholder="Write something.."
+                            style="height:200px"></textarea>
+
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="screen card4">
-            <div class='welcomeBalls'>
-
-                <canvas class="ball" id="flutter"></canvas>                    
-            </div>
-        </div>
-        <div class="screen card5"></div>
-        <div class="screen card6"></div>
-        </div>
-        </div>
+    </div>
 
 
 
     </div>
+    <div class="cursor">
+    </div>
+
     <script>
         // Global namespace (backwards-compatibility)
         var SPE = {};
     </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
     <script src="https://cdn.spline.design/lib/anime.min.js"></script>
     <!-- <script src="https://cdn.spline.design/lib/spline.runtime.min.js"></script> -->
     <script src="js/try.js"></script>
     <script src="js/assets.js"></script>
-    
     <script src="js/scene.js"></script>
     <script src="js/main.js"></script>
     <script src="js/screen2_assets.js"></script>
     <script src="js/screen2_scene.js"></script>
     <script src="js/screen2_main.js"></script>
 
-    
-  
-    
+    <script>
+        let cursor = document.querySelector('.cursor')
+        document.addEventListener('mousemove', e => {
+            cursor.setAttribute("style", "top: " + (e.pageY - 10) + "px; left: " + (e.pageX - 10) + "px;");
+        })
+        document.addEventListener('click', () => {
+            cursor.classList.add("expand");
 
+            setTimeout(() => {
+                cursor.classList.remove("expand");
+            }, 500)
+        })
+        document.getElementById('s1').addEventListener("keydown", e => {
+            if (e.keyCode === 83) {
 
+                $("#intro").fadeIn();
+                // document.getElementById('intro').style.opacity+=0.1;
+                console.log("end")
+            }
+            else {
+                $("#intro").fadeOut();
+            }
+        })
+    </script>
 
 </body>
+
 </html>
