@@ -451,6 +451,21 @@ input[type=text], select, textarea {
   resize: vertical;
   color: white;
 }
+input[type=email], select, textarea {
+  width: 100%;
+  font-family: odachi;
+  font-size: 20px;
+  padding: 12px;
+  border: 5px solid rgb(97, 96, 96);
+  background-color: #141414;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  color: white;
+}
+
 
 input[type=submit] {
   font-family: odachi;
